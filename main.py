@@ -23,7 +23,7 @@ async def on_message(message: Message) -> None:
 	print(f'[{channel}] {username}: "{user_message}"')
 	if message.author == client.user:
 		return
-	if message.channel.name == "general":
+	if message.channel.name == "olankylpyammesimit":
 		if "https://www.raidbots.com" in message.content:
 			m = re.match("^(?:[^\/]*\/){5}(.*)",message.content)
 			data = "https://www.raidbots.com/reports/"+m.group(1)+"/data.csv"
