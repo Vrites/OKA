@@ -26,7 +26,7 @@ async def on_message(message: Message) -> None:
 	if message.channel.name == "general":
 		if "https://www.raidbots.com" in message.content:
 			m = re.match("^(?:[^\/]*\/){5}(.*)",message.content)
-			data = "https://www.raidbots.com/reports/"+m.group(1)+"data.csv"
+			data = "https://www.raidbots.com/reports/"+m.group(1)+"/data.csv"
 			r = pd.read_csv("links.csv")
 			csvData = {
 				'name': message.author.name,
