@@ -34,49 +34,49 @@ client: Client = Client(intents=intents)
 async def on_ready() -> None:
 	print(f'{client.user} is now running!')
 
-  #Everything below here is for my purposes
+  	#Everything below here is for my purposes
 
-  # Gets the channel that I intend to work with
+  	# Gets the channel that I intend to work with
 	channel = client.get_channel(1275593586754322443)
 
-  # Gets the message history, since I'm not running this bot 24/7 and run it on my personal computer
+  	# Gets the message history, since I'm not running this bot 24/7 and run it on my personal computer
 	messages = channel.history(limit=200)
 	if(messages):
-    # Loop the message history
+    		# Loop the message history
 		async for message in messages:
-      # Pass bots messages
+      			# Pass bots messages
 			if message.author == client.user:
 				pass
-      # If the message contains what I want
+      			# If the message contains what I want
 			if "https://www.raidbots.com" in message.content:
-        # Check if sheet contains the senders name already for updating
+        			# Check if sheet contains the senders name already for updating
 				cell = sheet.find(message.author.name)
-        # If it exists just edit the previous column of that row where it exists
+        			# If it exists just edit the previous column of that row where it exists
 				if(cell):
 					sheet.update_cell(cell.row, cell.col-1, message.content)
-        # If it doesn't exist get the next empty row (definition below) and add data
+        			# If it doesn't exist get the next empty row (definition below) and add data
 				else:
 					next_row = next_available_row(sheet)
 					sheet.update_acell("A{}".format(next_row), message.content)
 					sheet.update_acell("B{}".format(next_row), message.author.name)
-      # Delete message to keep channel clean, !! As this is inside the loop for message history, it iterates upto 200 messages in history and nukes them !!
-      # I use it but I've commented it for safety reasons if anyone happens to use this
+      			# Delete message to keep channel clean, !! As this is inside the loop for message history, it iterates upto 200 messages in history and nukes them !!
+      			# I use it but I've commented it for safety reasons if anyone happens to use this
 			# await message.delete()
 
 # When a message is sent this is run
 @client.event
 async def on_message(message: Message) -> None:
-  # Unnecessary bloat for logging
+  	# Unnecessary bloat for logging
 	username: str = str(message.author)
 	user_message: str = message.content
 	channel: str = str(message.channel)
 
 	print(f'[{channel}] {username}: "{user_message}"')
-  # Pass if sender is bot
+  	# Pass if sender is bot
 	if message.author == client.user:
 		return
-  # Double check correct channel because message deleting is part of this
-  # All of this is also above, could be a function. I just didn't bother
+  	# Double check correct channel because message deleting is part of this
+  	# All of this is also above, could be a function. I just didn't bother
 	if message.channel.name == "olankylpyammesimit" and message.channel.id(1275593586754322443):
 		if "https://www.raidbots.com" in message.content:
 			cell = sheet.find(message.author.name)
@@ -86,7 +86,8 @@ async def on_message(message: Message) -> None:
 				next_row = next_available_row(sheet)
 				sheet.update_acell("A{}".format(next_row), message.content)
 				sheet.update_acell("B{}".format(next_row), message.author.name)
-		await message.delete()
+		# Commented again for safety reasons
+		# await message.delete()
 
 # The function for the next free row
 def next_available_row(worksheet):
